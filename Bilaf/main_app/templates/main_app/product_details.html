@@ -1,0 +1,119 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block title %}{{products.name}}{% endblock %}
+{% block header %}{{ products.store }}{% endblock %}
+{% block content%}
+
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                src="{{products.image.url}}" alt="">
+                        </div>
+                        <div class="product__details__pic__slider owl-carousel">
+                            <img data-imgbigurl="img/product/details/product-details-2.jpg"
+                                src="img/product/details/thumb-1.jpg" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-3.jpg"
+                                src="img/product/details/thumb-2.jpg" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-5.jpg"
+                                src="img/product/details/thumb-3.jpg" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-4.jpg"
+                                src="img/product/details/thumb-4.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h2>Store: <a href="{% url 'main_app:store_page' %}">{{store.store_name}}</a></h2>
+                        <h3 >{{categories.name}}: {{products.name}}</h3>
+                        <div class="product__details__rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                            <span>0 reviews</span>
+                        </div>
+                        <div class="product__details__price">{{products.price}}$</div>
+                        <p>{{products.description}}</p>
+                        <form id="myForm" action="{% url 'main_app:add_to_cart' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                        <div class="product__details__quantity">
+                            <div class="quantity">
+                                <div class="pro-qty">
+                                    <input type="number" name="quantity" value="1" min="1" max="{{products.quantity}}">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="product_id" value="{{products.id}}">
+                        <button type="submit" {% if warning %}onclick="showConfirmation(event)"{% endif %} class="primary-btn">ADD TO CART</button>
+                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        <ul>
+                            <li><b>Availability</b> <span>In Stock</span></li>
+                            <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                    aria-selected="true">Description</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                    aria-selected="false">Reviews <span></span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Products Infomation</h6>
+                                    <p>{{products.description}}</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Products Infomation</h6>
+                                    <p>{{products.description}}</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Reviews</h6>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+{% endblock %}
+{% block 'script' %}
+<form id="myForm" action="cart/" method="post">
+    <!-- Add your form fields here -->
+    
+    <button onclick="showConfirmation(event)">Submit</button>
+  </form>
+  
+  <script>
+  function showConfirmation(event) {
+    event.preventDefault(); // Prevent the default form submission
+    
+    var result = confirm("You can't have a cart for 2 store, if you proceed, your previous cart will be deleted and a new will be created!");
+    if (result) {
+      // User clicked "OK" on the confirmation dialog
+      document.getElementById("myForm").submit(); // Submit the form
+    } 
+  }
+  </script>
+  
+{% endblock %}

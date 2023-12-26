@@ -1,0 +1,105 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Order Details {% endblock %}
+
+{% block content%}
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="shoping__cart__table">
+                <table>
+                <thead>
+                    <tr>
+                        <th class="shoping__product">Products</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for item in items %}
+                        <td class="shoping__cart__item">
+                            <img src="{{item.product.image.url}}" alt="">
+                            <h5>{{item.name}}</h5>
+                        </td>
+                        <td class="shoping__cart__price">
+                            {{item.price}}
+                        </td>
+                        <td class="shoping__cart__quantity">
+                            <div class="quantity">
+                                <div class="pro-qty">
+                                    <input type="text" value="item.quantity" disabled>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="shoping__cart__total">
+                            {{ item.quantity|multiply:item.price }} SR
+                        </td>
+                        <td class="shoping__cart__item__close">
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    <div class="col-lg-6">
+        <div class="shoping__checkout">
+             <div class="checkout__input__checkbox " >
+                <h5>Delivery Optionsd <span></span></h5>
+                {% comment %} {% if cart.pick_up_enabled %} {% endcomment %}
+                <li><label>
+                    Pick Up At Your House
+                    <input type="radio" name="pick_up_enabled" selected>
+                    <span class="checkmark"></span>
+                </label></li>
+                {% comment %} {% else %} {% endcomment %}
+                <li><label>
+                    Delivery
+                    <input type="radio" name="pick_up_enabled" selected>
+                    <span class="checkmark"></span>
+                </label></li>
+                {% comment %} {% endif %} {% endcomment %}
+            <div class="checkout__input__checkbox mt-1">
+            <h5>Peyment Options: <span>*</span></h5>
+                            <li><label>
+                    Cash
+                    <input type="radio" name="pick_up_enabled" >
+                    <span class="checkmark"></span>
+                </label></li>
+                <li><label>
+                    online  Payment
+                    <input type="radio" name="pick_up_enabled" >
+                    <span class="checkmark"></span>
+                </label></li>
+            </div>
+        </div> 
+        </div>
+        </div>   
+ 
+    <div class="col-lg-6">
+        <div class="shoping__checkout mp-5">
+                    <h5>Cart Total</h5>
+            <ul>
+                <li>Total <span>$454.98</span></li>
+            <h5>Custmore info</h5>
+            <ul>
+                <li>Name:{{cart.customer.user.first_name}} <span></span></li>
+                <li>Phone Number: {{cart.customer.user.profile.phone_number }} <span></span></li>
+            </ul>
+        </div>
+    </div>
+    
+            <a href="#" class="primary-btn mt-5 ">accept order</a>
+            <a href="#" class="primary-btn mt-5 ">delete order</a>
+    </div>    
+</section>
+
+{% endblock %}
